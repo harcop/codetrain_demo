@@ -53,15 +53,21 @@ class QuadTree {
         }
 
         if (this.points.length < this.capacity) {
+            console.log(this.points.length);
             this.points.push(point);
         } else {
             if (!this.divided) {
                 this.subdivide();
             }
-            this.northwest.insert(point);
-            this.northeast.insert(point);
-            this.southwest.insert(point);
-            this.southeast.insert(point);
+            if(this.northwest.insert(point)) {
+                return  true;
+            }else if (this.northeast.insert(point)){
+                return true;
+            } else if (this.southwest.insert(point)){
+                return true;
+            } else if (this.southeast.insert(point)){
+                return true;
+            }
         }
     }
 
@@ -77,9 +83,9 @@ class QuadTree {
             this.southwest.show();
             this.southeast.show();
         }
-        for(let p of this.points) {
-            strokeWeight(4);
-            point(p.x, p.y);
-        }
+        // for(let p of this.points) {
+        //     strokeWeight(4);
+        //     point(p.x, p.y);
+        // }
     }
 }
