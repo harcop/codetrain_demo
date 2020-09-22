@@ -53,7 +53,6 @@ class QuadTree {
         }
 
         if (this.points.length < this.capacity) {
-            console.log(this.points.length);
             this.points.push(point);
         } else {
             if (!this.divided) {
@@ -83,9 +82,32 @@ class QuadTree {
             this.southwest.show();
             this.southeast.show();
         }
-        // for(let p of this.points) {
-        //     strokeWeight(4);
-        //     point(p.x, p.y);
-        // }
+        for(let p of this.points) {
+            strokeWeight(1);
+            point(p.x, p.y);
+        }
+    }
+
+    extract (boundary) {
+        let x = boundary.x;
+        let y = boundary.y;
+        let w = boundary.w;
+        let h = boundary.h;
+        // console.log(boundary.x)
+        for (let p of this.points) {
+            if (p.x >= x-w && p.x <= x + w && 
+                p.y >= y-h/2 && p.y <= y+h/2
+                ) {
+                    stroke(43,56,223);
+                    strokeWeight(4);
+                    point(p.x, p.y);
+                }
+        }
+        if (this.divided) {
+            this.northwest.extract(boundary);
+            this.northeast.extract(boundary);
+            this.southwest.extract(boundary);
+            this.southeast.extract(boundary);
+        }
     }
 }

@@ -1,3 +1,3 @@
 git add .
-git commit -m "add mouse press point adder"
+git commit -m "feat(): add scanner to screen"
 # git push

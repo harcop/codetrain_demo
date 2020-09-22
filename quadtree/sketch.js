@@ -23,4 +23,17 @@ function draw() {
 
     background(0);
     qtree.show();
+
+    
+    stroke(35, 65, 23);
+    noFill();
+    strokeWeight(2);
+    mouseMoved(qtree);
+}
+
+function mouseMoved() {
+    let rec = new Rectangle(mouseX, mouseY, 60, 60);
+    rectMode(CENTER);
+    rect(mouseX, mouseY, 100, 100);
+    qtree.extract(rec)
 }
