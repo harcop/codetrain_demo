@@ -20,6 +20,13 @@ class Rectangle {
             point.y < this.y + this.h
             );
     }
+
+    intersects (range) {
+        return !(range.x - range.w > this.x + this.w || 
+            range.x + range.w < this.x - this.w ||
+            range.y - range.h > this.y + this.h || 
+            range.y + range.h < this.y - this.h );
+    }
 }
 
 class QuadTree {
@@ -70,9 +77,26 @@ class QuadTree {
         }
     }
 
+    query(range, found = []) {
+        if (!this.boundary.intersects(range)) {
+            return found;
+        } else {
+            for (let  p of this.points) {
+                if (range.contains(p)) {
+                    found.push(p);
+                }
+            }
+            if (this.divided) {
+                this.northwest.query(range, found);
+                this.northeast.query(range, found);
+                this.southwest.query(range, found);
+                this.southeast.query(range, found);
+            }
+        }
+    }
     show () {
         stroke(255);
-        strokeWeight(1);
+        strokeWeight(4);
         noFill();
         rectMode(CENTER);
         rect(this.boundary.x, this.boundary.y, this.boundary.w*2, this.boundary.h*2);
@@ -83,31 +107,7 @@ class QuadTree {
             this.southeast.show();
         }
         for(let p of this.points) {
-            strokeWeight(1);
             point(p.x, p.y);
-        }
-    }
-
-    extract (boundary) {
-        let x = boundary.x;
-        let y = boundary.y;
-        let w = boundary.w;
-        let h = boundary.h;
-        // console.log(boundary.x)
-        for (let p of this.points) {
-            if (p.x >= x-w && p.x <= x + w && 
-                p.y >= y-h/2 && p.y <= y+h/2
-                ) {
-                    stroke(43,56,223);
-                    strokeWeight(4);
-                    point(p.x, p.y);
-                }
-        }
-        if (this.divided) {
-            this.northwest.extract(boundary);
-            this.northeast.extract(boundary);
-            this.southwest.extract(boundary);
-            this.southeast.extract(boundary);
         }
     }
 }

@@ -6,10 +6,10 @@ function setup() {
     let boundary = new Rectangle(200,200,200,200);
     qtree = new QuadTree(boundary, 4)
     
-    // for (let i = 0; i < 500; i++) {
-    //     let p = new Point(random(width), random(height));
-    //     qtree.insert(p)
-    // }
+    for (let i = 0; i < 500; i++) {
+        let p = new Point(random(width), random(height));
+        qtree.insert(p)
+    }
 }
 
 function draw() {
@@ -24,16 +24,15 @@ function draw() {
     background(0);
     qtree.show();
 
-    
-    stroke(35, 65, 23);
-    noFill();
-    strokeWeight(2);
-    mouseMoved(qtree);
-}
 
-function mouseMoved() {
-    let rec = new Rectangle(mouseX, mouseY, 60, 60);
+    stroke(0, 255, 0);
     rectMode(CENTER);
-    rect(mouseX, mouseY, 100, 100);
-    qtree.extract(rec)
+    let range = new Rectangle(mouseX, mouseY, 107, 75);
+    rect(range.x, range.y, range.w*2, range.h*2);
+    let points = [];
+    qtree.query(range, points);
+    for(const p of points) {
+        strokeWeight(4);
+        point(p.x, p.y);
+    }
 }

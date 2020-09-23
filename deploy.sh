@@ -1,3 +1,3 @@
 git add .
-git commit -m "feat(): add scanner to screen"
+git commit -m "refactor: modify scanner in quadtree"
 # git push
